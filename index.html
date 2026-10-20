@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derick Bengan | Computer Engineering & NC II Specialist</title>
+
+    <!-- Early Theme Detection Script (Defaults to Dark Mode) -->
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            // Default to Dark Mode
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* Minimal Clean Glass Panel */
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+        }
+
+        .dark .glass-panel {
+            background-color: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-hover {
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .glass-panel-hover:hover {
+            transform: translateY(-2px);
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.08);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dark .text-gradient {
+            background: linear-gradient(135deg, #38bdf8 0%, #a78bfa 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #262626;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen bg-slate-50 text-slate-800 dark:bg-[#111111] dark:text-neutral-100 selection:bg-brand-500/20 selection:text-brand-500 antialiased">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3"></div>
+
+    <!-- Navigation Bar -->
+    <header
+        class="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+
+            <!-- Logo / Brand -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <div
+                    class="w-9 h-9 rounded-xl bg-slate-200/80 dark:bg-neutral-900 border border-slate-300/80 dark:border-white/10 flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+                    <span class="font-mono font-bold text-sm text-brand-600 dark:text-brand-400">DB</span>
+                </div>
+                <div class="flex flex-col">
+                    <span
+                        class="font-bold text-slate-900 dark:text-white tracking-tight text-sm group-hover:text-brand-500 transition-colors">DERICK
+                        BENGAN</span>
+                    <span class="text-[10px] font-mono text-slate-500 dark:text-neutral-400 tracking-wider">CpE STUDENT
+                        & TECH</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav
+                class="hidden md:flex items-center gap-1 bg-slate-200/60 dark:bg-neutral-900/60 p-1 rounded-full border border-slate-300/60 dark:border-white/10">
+                <a href="#home"
+                    class="nav-link px-3.5 py-1.5 rounded-full text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white transition-colors">Home</a>
+                <a href="#about"
+                    class="nav-link px-3.5 py-1.5 rounded-full text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white transition-colors">About</a>
+                <a href="#education"
+                    class="nav-link px-3.5 py-1.5 rounded-full text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white transition-colors">Education
+                    & NC II</a>
+                <a href="#skills"
+                    class="nav-link px-3.5 py-1.5 rounded-full text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white transition-colors">Skills</a>
+                <a href="#interests"
+                    class="nav-link px-3.5 py-1.5 rounded-full text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white transition-colors">Balance</a>
+                <a href="#contact"
+                    class="nav-link px-3.5 py-1.5 rounded-full text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Action Controls: Segmented Theme Switcher & Contact Button -->
+            <div class="flex items-center gap-2.5">
+                <!-- Segmented Light/Dark Toggle -->
+                <div class="flex items-center p-1 rounded-xl bg-slate-200/80 dark:bg-neutral-900 border border-slate-300/80 dark:border-white/10"
+                    id="theme-segmented-nav">
+                    <button onclick="setTheme('light')" id="btn-theme-light"
+                        class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-200"
+                        title="Switch to Light Mode" aria-label="Switch to Light Mode">
+                        <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                        <span class="text-[11px] font-mono hidden sm:inline">Light</span>
+                    </button>
+                    <button onclick="setTheme('dark')" id="btn-theme-dark"
+                        class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-200"
+                        title="Switch to Dark Mode" aria-label="Switch to Dark Mode">
+                        <i data-lucide="moon" class="w-3.5 h-3.5"></i>
+                        <span class="text-[11px] font-mono hidden sm:inline">Dark</span>
+                    </button>
+                </div>
+
+                <!-- Direct CTA -->
+                <a href="#contact"
+                    class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl bg-brand-500 hover:bg-brand-600 text-white shadow-sm transition-all duration-200">
+                    <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                    <span>Contact Me</span>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn"
+                    class="md:hidden p-2.5 rounded-xl bg-slate-200/70 dark:bg-neutral-900 border border-slate-300/70 dark:border-white/10 text-slate-700 dark:text-neutral-300"
+                    aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" id="menu-icon-open" class="w-5 h-5"></i>
+                    <i data-lucide="x" id="menu-icon-close" class="w-5 h-5 hidden"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu"
+            class="hidden md:hidden glass-panel border-b border-slate-200 dark:border-white/10 px-4 pt-3 pb-5 space-y-2">
+            <a href="#home"
+                class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">Home</a>
+            <a href="#about"
+                class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">About
+                & Profile</a>
+            <a href="#education"
+                class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">Education
+                & NC II</a>
+            <a href="#skills"
+                class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">Skills</a>
+            <a href="#interests"
+                class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">Balance</a>
+            <a href="#contact"
+                class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">Contact</a>
+
+            <!-- Mobile Theme Switcher Bar -->
+            <div class="pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+                <span class="text-xs font-mono text-slate-500 dark:text-neutral-400">Interface Theme</span>
+                <div
+                    class="flex items-center p-1 rounded-xl bg-slate-200/80 dark:bg-neutral-900 border border-slate-300/80 dark:border-white/10">
+                    <button onclick="setTheme('light')"
+                        class="mobile-theme-light flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all">
+                        <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                        <span class="text-[11px] font-mono">Light</span>
+                    </button>
+                    <button onclick="setTheme('dark')"
+                        class="mobile-theme-dark flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all">
+                        <i data-lucide="moon" class="w-3.5 h-3.5"></i>
+                        <span class="text-[11px] font-mono">Dark</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pt-6 pb-20">
+
+        <!-- ================= HERO SECTION ================= -->
+        <section id="home" class="min-h-[75vh] flex flex-col lg:flex-row items-center justify-between gap-12 pt-4">
+
+            <!-- Left Details -->
+            <div class="flex-1 space-y-6 text-center lg:text-left">
+
+                <!-- Status Badge -->
+                <div
+                    class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-mono">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    Available for Tech Opportunities
+                </div>
+
+                <!-- Main Headline -->
+                <div class="space-y-2">
+                    <p class="text-slate-500 dark:text-neutral-400 font-mono text-xs tracking-wider uppercase">Hello,
+                        I'm</p>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                        Derick Bengan
+                    </h1>
+                    <div class="h-9 sm:h-11 flex items-center justify-center lg:justify-start">
+                        <span class="font-mono text-xl sm:text-2xl font-semibold text-gradient" id="typing-text"></span>
+                        <span class="animate-pulse text-brand-500 dark:text-brand-400 text-2xl font-mono">|</span>
+                    </div>
+                </div>
+
+                <!-- Biography -->
+                <p
+                    class="text-slate-600 dark:text-neutral-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
+                    Currently pursuing <strong class="text-slate-900 dark:text-white font-medium">Computer
+                        Engineering</strong> at ICCT Colleges. Passionate about computer hardware servicing, systems
+                    diagnostics, and software logic integration.
+                </p>
+
+                <!-- Quick Attributes -->
+                <div
+                    class="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 text-xs font-mono text-slate-500 dark:text-neutral-400">
+                    <div
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200/60 dark:bg-neutral-900/80 border border-slate-300/60 dark:border-white/10">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+                        Quezon City, PH
+                    </div>
+                    <div
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200/60 dark:bg-neutral-900/80 border border-slate-300/60 dark:border-white/10">
+                        <i data-lucide="award" class="w-3.5 h-3.5 text-violet-500 dark:text-violet-400"></i>
+                        TESDA NC II Certified
+                    </div>
+                    <div
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200/60 dark:bg-neutral-900/80 border border-slate-300/60 dark:border-white/10">
+                        <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400"></i>
+                        4th Year CpE Student
+                    </div>
+                </div>
+
+                <!-- CTA & Socials -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+                    <a href="#education"
+                        class="w-full sm:w-auto px-5 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs shadow-sm transition-all flex items-center justify-center gap-2">
+                        <span>View Qualifications</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </a>
+
+                    <a href="#contact"
+                        class="w-full sm:w-auto px-5 py-3 rounded-xl glass-panel text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white font-medium text-xs hover:border-brand-500/40 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="mail" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+                        <span>Get In Touch</span>
+                    </a>
+
+                    <!-- Social Icons -->
+                    <div class="flex items-center gap-2 pt-2 sm:pt-0 sm:ml-2">
+                        <a href="https://github.com/kobean" target="_blank" rel="noopener noreferrer"
+                            class="p-2.5 rounded-xl glass-panel text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:border-brand-500/40 transition-all"
+                            title="GitHub - @kobean">
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://www.facebook.com/8.24bean" target="_blank" rel="noopener noreferrer"
+                            class="p-2.5 rounded-xl glass-panel text-slate-600 dark:text-neutral-400 hover:text-blue-500 hover:border-blue-500/40 transition-all"
+                            title="Facebook - Derick Bengan">
+                            <i data-lucide="facebook" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://www.instagram.com/derick.bengan/" target="_blank" rel="noopener noreferrer"
+                            class="p-2.5 rounded-xl glass-panel text-slate-600 dark:text-neutral-400 hover:text-pink-500 hover:border-pink-500/40 transition-all"
+                            title="Instagram - @derick.bengan">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Showcase Card -->
+            <div class="w-full lg:w-5/12 max-w-sm">
+                <div
+                    class="glass-panel rounded-3xl p-6 border border-slate-200/80 dark:border-white/10 space-y-5 shadow-sm">
+
+                    <!-- Header with Profile Picture -->
+                    <div class="flex items-center gap-4 pb-4 border-b border-slate-200 dark:border-white/10">
+                        <div
+                            class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-gradient-to-br from-brand-500 to-violet-600 p-0.5 shrink-0 overflow-hidden shadow-sm">
+                            <img src="profile.png" alt="Derick Bengan"
+                                class="w-full h-full object-cover rounded-[14px] scale-110"
+                                style="object-position: center 25%;">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 dark:text-white text-lg">Derick Bengan</h3>
+                            <p class="text-xs font-mono text-brand-600 dark:text-brand-400">BS Computer Engineering</p>
+                            <p class="text-xs text-slate-500 dark:text-neutral-400 mt-0.5">ICCT Colleges • Class of 2028
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mini Competency Pills -->
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div
+                            class="p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 flex flex-col gap-0.5">
+                            <span class="text-[10px] text-slate-500 font-mono">PRIMARY FOCUS</span>
+                            <span class="font-semibold text-slate-800 dark:text-neutral-200">Hardware & Systems</span>
+                        </div>
+                        <div
+                            class="p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 flex flex-col gap-0.5">
+                            <span class="text-[10px] text-slate-500 font-mono">CERTIFICATION</span>
+                            <span class="font-semibold text-emerald-600 dark:text-emerald-400">TESDA NC II Holder</span>
+                        </div>
+                    </div>
+
+                    <!-- Clean Quote -->
+                    <p
+                        class="p-3.5 rounded-2xl bg-slate-100/70 dark:bg-neutral-900/40 border border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-neutral-300 italic leading-relaxed">
+                        "Every line of code and hands-on system repair brings me one step closer to becoming an
+                        impactful engineer."
+                    </p>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="p-2 rounded-xl bg-slate-100 dark:bg-neutral-900/40">
+                            <div class="text-base font-bold text-brand-600 dark:text-brand-400">4th</div>
+                            <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">Year Level</div>
+                        </div>
+                        <div class="p-2 rounded-xl bg-slate-100 dark:bg-neutral-900/40">
+                            <div class="text-base font-bold text-violet-600 dark:text-violet-400">5/5</div>
+                            <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">NC II Units</div>
+                        </div>
+                        <div class="p-2 rounded-xl bg-slate-100 dark:bg-neutral-900/40">
+                            <div class="text-base font-bold text-emerald-600 dark:text-emerald-400">100%</div>
+                            <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">Dedication</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= ABOUT & PROFILE SECTION ================= -->
+        <section id="about" class="space-y-10">
+
+            <div class="text-center space-y-2 max-w-xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 text-xs font-mono">
+                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                    Get To Know Me
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">About Me &
+                    Profile</h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-xs sm:text-sm">Personal profile, technical
+                    background, and engineering focus.</p>
+            </div>
+
+            <!-- Profile & About Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch max-w-5xl mx-auto">
+
+                <!-- Left Column: Personal Profile Card -->
+                <div
+                    class="lg:col-span-5 glass-panel p-6 sm:p-7 rounded-2xl space-y-5 flex flex-col justify-between border-slate-200/80 dark:border-white/10 shadow-sm">
+                    <div class="space-y-5">
+                        <!-- Header with Profile Picture -->
+                        <div
+                            class="flex flex-col items-center text-center pb-5 border-b border-slate-200 dark:border-white/10 space-y-3">
+                            <div
+                                class="relative w-48 h-48 sm:w-60 sm:h-60 rounded-3xl bg-gradient-to-br from-brand-500 via-violet-500 to-emerald-400 p-1 shadow-md shrink-0">
+                                <div
+                                    class="w-full h-full bg-slate-950 rounded-[22px] overflow-hidden flex items-center justify-center">
+                                    <img src="profile.png" alt="Derick Bengan"
+                                        class="w-full h-full object-cover scale-110"
+                                        style="object-position: center 25%;">
+                                </div>
+                                <span
+                                    class="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-950 shadow-sm"
+                                    title="Active & Available"></span>
+                            </div>
+                            <div class="space-y-1">
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Derick
+                                    Bengan</h3>
+                                <p class="text-xs font-mono text-brand-600 dark:text-brand-400">CpE Student & Certified
+                                    Tech</p>
+                                <span
+                                    class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Available for Opportunities
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Profile Info Metadata Rows -->
+                        <div class="space-y-2 text-xs">
+                            <div
+                                class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10">
+                                <span class="text-slate-500 dark:text-neutral-400 flex items-center gap-2">
+                                    <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-brand-500"></i> Degree
+                                </span>
+                                <span class="font-medium text-slate-800 dark:text-neutral-200">BS Computer
+                                    Engineering</span>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10">
+                                <span class="text-slate-500 dark:text-neutral-400 flex items-center gap-2">
+                                    <i data-lucide="building" class="w-3.5 h-3.5 text-violet-500"></i> College
+                                </span>
+                                <span class="font-medium text-slate-800 dark:text-neutral-200">ICCT Colleges (Class
+                                    2028)</span>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10">
+                                <span class="text-slate-500 dark:text-neutral-400 flex items-center gap-2">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-500"></i> Location
+                                </span>
+                                <span class="font-medium text-slate-800 dark:text-neutral-200">Quezon City, PH</span>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10">
+                                <span class="text-slate-500 dark:text-neutral-400 flex items-center gap-2">
+                                    <i data-lucide="award" class="w-3.5 h-3.5 text-amber-500"></i> Certification
+                                </span>
+                                <span class="font-medium text-amber-600 dark:text-amber-400 font-mono">TESDA CSS NC
+                                    II</span>
+                            </div>
+                            <div
+                                class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10">
+                                <span class="text-slate-500 dark:text-neutral-400 flex items-center gap-2">
+                                    <i data-lucide="mail" class="w-3.5 h-3.5 text-sky-500"></i> Email
+                                </span>
+                                <span
+                                    class="font-medium text-slate-800 dark:text-neutral-200 font-mono truncate max-w-[160px]"
+                                    title="derick.bengan2iv@gmail.com">derick.bengan2iv@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-200 dark:border-white/10">
+                        <a href="#contact"
+                            class="w-full py-2.5 px-4 rounded-xl bg-brand-500/10 hover:bg-brand-500 text-brand-600 dark:text-brand-400 hover:text-white border border-brand-500/20 text-xs font-semibold transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                            <span>Send a Message</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Biography & Pillars -->
+                <div class="lg:col-span-7 space-y-5 flex flex-col justify-between">
+                    <!-- Bio Narrative Card -->
+                    <div
+                        class="glass-panel p-6 sm:p-7 rounded-2xl space-y-3.5 border-slate-200/80 dark:border-white/10 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                                <i data-lucide="compass" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Curiosity-Driven Tech
+                                    Enthusiast</h3>
+                                <p class="text-xs text-slate-500 dark:text-neutral-400 font-mono">Hardware & Software
+                                    Interrelation</p>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-600 dark:text-neutral-300 leading-relaxed text-xs sm:text-sm font-light">
+                            I am a Computer Engineering student driven by a deep curiosity about how systems function
+                            from the silicon level up. My passion lies in understanding the synergy between physical
+                            computer hardware and software logic, combining hands-on technical servicing experience with
+                            university engineering coursework.
+                        </p>
+                        <p class="text-slate-500 dark:text-neutral-400 leading-relaxed text-xs font-light">
+                            Whether troubleshooting system assemblies, configuring networks, or exploring emerging
+                            engineering tools, I approach every challenge with disciplined problem-solving and a
+                            constant desire to grow.
+                        </p>
+                    </div>
+
+                    <!-- 3 Core Pillars -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                        <div class="glass-panel p-4 rounded-xl border-slate-200/80 dark:border-white/10 space-y-1.5">
+                            <div
+                                class="w-7 h-7 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center">
+                                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Hardware & Systems</h4>
+                            <p class="text-[11px] text-slate-500 dark:text-neutral-400 leading-relaxed">Certified in
+                                servicing, system assembly, and diagnostics.</p>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-xl border-slate-200/80 dark:border-white/10 space-y-1.5">
+                            <div
+                                class="w-7 h-7 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400 flex items-center justify-center">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Work Ethic</h4>
+                            <p class="text-[11px] text-slate-500 dark:text-neutral-400 leading-relaxed">Curiosity,
+                                persistent discipline, and active teamwork.</p>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-xl border-slate-200/80 dark:border-white/10 space-y-1.5">
+                            <div
+                                class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                                <i data-lucide="target" class="w-3.5 h-3.5"></i>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Career Vision</h4>
+                            <p class="text-[11px] text-slate-500 dark:text-neutral-400 leading-relaxed">Building
+                                impactful, real-world engineering solutions.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- GitHub Contributions Heatmap Card -->
+            <div
+                class="max-w-5xl mx-auto glass-panel p-5 sm:p-6 rounded-2xl border-slate-200/80 dark:border-white/10 space-y-3 shadow-sm">
+                <!-- Heatmap Graph Wrapper -->
+                <div class="overflow-x-auto pb-1 pt-1 select-none">
+                    <div class="min-w-[720px] relative" id="github-graph-container">
+                        <svg id="github-graph-svg" viewBox="0 0 720 115" class="w-full h-auto text-xs font-mono"></svg>
+                        <!-- Dynamic Tooltip -->
+                        <div id="github-tooltip"
+                            class="absolute pointer-events-none hidden px-2.5 py-1.5 rounded-lg bg-slate-900 border border-white/15 text-[11px] font-mono text-white shadow-xl z-20 whitespace-nowrap">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer: Legend & Info Link -->
+                <div class="flex items-center justify-between text-xs text-slate-500 dark:text-neutral-400 font-mono">
+                    <a href="https://github.com/kobean" target="_blank" rel="noopener noreferrer"
+                        class="text-[11px] hover:text-slate-900 dark:hover:text-slate-300 transition-colors flex items-center gap-1.5">
+                        <i data-lucide="github" class="w-3.5 h-3.5"></i>
+                        <span>Learn how we count contributions</span>
+                    </a>
+
+                    <div class="flex items-center gap-1.5 text-[11px]">
+                        <span class="mr-1">Less</span>
+                        <span
+                            class="w-2.5 h-2.5 rounded-[2px] bg-[#e2e8f0] dark:bg-[#141414] border border-slate-300/60 dark:border-white/10 inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-[2px] bg-[#0e4429] inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-[2px] bg-[#006d32] inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-[2px] bg-[#26a641] inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-[2px] bg-[#39d353] inline-block"></span>
+                        <span class="ml-1">More</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= EDUCATION & NC II CERTIFICATION ================= -->
+        <section id="education" class="space-y-10">
+
+            <div class="text-center space-y-2 max-w-xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/10 text-violet-600 dark:text-violet-400 text-xs font-mono">
+                    <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+                    Qualifications
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Education & NC
+                    II Certification</h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-xs sm:text-sm">Academic degree program and TESDA
+                    Computer Systems Servicing certification.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start max-w-5xl mx-auto">
+
+                <!-- Left: Academic Education Card -->
+                <div
+                    class="lg:col-span-5 glass-panel rounded-2xl p-6 border-slate-200/80 dark:border-white/10 space-y-5 shadow-sm">
+                    <div class="flex items-center gap-3 border-b border-slate-200 dark:border-white/10 pb-4">
+                        <div class="p-2.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                            <i data-lucide="school" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <span
+                                class="text-[10px] font-mono text-brand-600 dark:text-brand-400 uppercase tracking-wider">Higher
+                                Education</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">ICCT COLLEGES</h3>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3.5">
+                        <div>
+                            <div class="text-xs font-mono text-slate-500 dark:text-neutral-400">Degree & Course</div>
+                            <div
+                                class="text-sm font-semibold text-slate-900 dark:text-neutral-100 flex items-center gap-2 mt-0.5">
+                                <span>BS Computer Engineering</span>
+                                <span
+                                    class="px-2 py-0.5 rounded-md bg-brand-500/10 text-brand-600 dark:text-brand-400 text-[10px] font-mono font-medium">CpE</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2.5 pt-1">
+                            <div
+                                class="p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10">
+                                <div class="text-[10px] font-mono text-slate-500">YEAR LEVEL</div>
+                                <div class="text-xs font-semibold text-slate-800 dark:text-neutral-200">4th Year College
+                                </div>
+                            </div>
+                            <div
+                                class="p-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10">
+                                <div class="text-[10px] font-mono text-slate-500">TIMELINE</div>
+                                <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">2023 – 2028
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="p-3.5 rounded-xl bg-slate-100 dark:bg-neutral-900/40 border border-slate-200 dark:border-white/10 space-y-1">
+                            <div
+                                class="text-xs font-semibold text-slate-800 dark:text-neutral-200 flex items-center gap-1.5">
+                                <i data-lucide="book-open-check" class="w-3.5 h-3.5 text-brand-500"></i> Course
+                                Highlights
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-neutral-400 leading-relaxed font-light">
+                                Studies encompass Computer Architecture, Logic Circuits, Networking Fundamentals,
+                                Embedded Systems, and Software Logic.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: NC II Certification Showcase Card -->
+                <div
+                    class="lg:col-span-7 glass-panel rounded-2xl p-6 border-slate-200/80 dark:border-white/10 space-y-5 shadow-sm">
+                    <!-- Header -->
+                    <div class="flex items-center gap-3 border-b border-slate-200 dark:border-white/10 pb-4">
+                        <div class="p-2.5 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-[10px] font-mono text-violet-600 dark:text-violet-400 uppercase tracking-wider">NATIONAL
+                                    CERTIFICATION</span>
+                                <span
+                                    class="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono font-medium">VERIFIED</span>
+                            </div>
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">NC II in Computer
+                                Systems Servicing</h3>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-slate-600 dark:text-neutral-300 leading-relaxed font-light">
+                        Certified competent by TESDA standards to perform configuration, setup, maintenance, and
+                        diagnostics of hardware and network architectures.
+                    </p>
+
+                    <!-- Core Competencies Modules -->
+                    <div class="space-y-2">
+                        <div
+                            class="text-[11px] font-mono uppercase text-slate-500 dark:text-neutral-400 tracking-wider flex items-center justify-between">
+                            <span>Core Competencies Mastered (5/5)</span>
+                            <span class="text-emerald-600 dark:text-emerald-400 font-semibold">100% Passed</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-2">
+                            <div
+                                class="p-3 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="w-6 h-6 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400 font-mono font-bold text-[11px] flex items-center justify-center">01</span>
+                                    <div>
+                                        <div class="text-xs font-semibold text-slate-900 dark:text-neutral-100">Install
+                                            and Configure Computer Systems</div>
+                                        <div class="text-[11px] text-slate-500">Hardware assembly, OS installation,
+                                            drivers, utilities</div>
+                                    </div>
+                                </div>
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0"></i>
+                            </div>
+
+                            <div
+                                class="p-3 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="w-6 h-6 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400 font-mono font-bold text-[11px] flex items-center justify-center">02</span>
+                                    <div>
+                                        <div class="text-xs font-semibold text-slate-900 dark:text-neutral-100">Set-Up
+                                            Computer Networks</div>
+                                        <div class="text-[11px] text-slate-500">LAN cabling (UTP/RJ45), routers,
+                                            switches, IP addressing</div>
+                                    </div>
+                                </div>
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0"></i>
+                            </div>
+
+                            <div
+                                class="p-3 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="w-6 h-6 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400 font-mono font-bold text-[11px] flex items-center justify-center">03</span>
+                                    <div>
+                                        <div class="text-xs font-semibold text-slate-900 dark:text-neutral-100">Set-Up
+                                            Computer Servers</div>
+                                        <div class="text-[11px] text-slate-500">Server OS deployment, user permissions,
+                                            DHCP, DNS, sharing</div>
+                                    </div>
+                                </div>
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0"></i>
+                            </div>
+
+                            <div
+                                class="p-3 rounded-xl bg-slate-100 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="w-6 h-6 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400 font-mono font-bold text-[11px] flex items-center justify-center">04</span>
+                                    <div>
+                                        <div class="text-xs font-semibold text-slate-900 dark:text-neutral-100">Maintain
+                                            & Repair Systems and Networks</div>
+                                        <div class="text-[11px] text-slate-500">Preventive maintenance, hardware
+                                            diagnostic, troubleshooting</div>
+                                    </div>
+                                </div>
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= SKILLS SECTION ================= -->
+        <section id="skills" class="space-y-10">
+
+            <div class="text-center space-y-2 max-w-xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-mono">
+                    <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                    Proficiencies
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Skills &
+                    Technical Expertise</h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-xs sm:text-sm">Hardware, networking, system
+                    servicing, and programming fundamentals.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+
+                <!-- Skill 1 -->
+                <div
+                    class="glass-panel glass-panel-hover p-5 rounded-2xl space-y-3 border-slate-200/80 dark:border-white/10 shadow-sm">
+                    <div class="p-2.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 w-fit">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-sm">Computer Servicing</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-neutral-400">NC II Standard</p>
+                    </div>
+                    <ul class="space-y-1.5 text-xs text-slate-600 dark:text-neutral-300">
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-brand-500"></i> Hardware Assembly</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-brand-500"></i> OS Formatting & Setup</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-brand-500"></i> Driver Installations</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-brand-500"></i> Peripheral Config</li>
+                    </ul>
+                </div>
+
+                <!-- Skill 2 -->
+                <div
+                    class="glass-panel glass-panel-hover p-5 rounded-2xl space-y-3 border-slate-200/80 dark:border-white/10 shadow-sm">
+                    <div class="p-2.5 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400 w-fit">
+                        <i data-lucide="network" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-sm">Networking & Servers</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-neutral-400">LAN Infrastructure</p>
+                    </div>
+                    <ul class="space-y-1.5 text-xs text-slate-600 dark:text-neutral-300">
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-violet-500"></i> Cable Crimping & UTP</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-violet-500"></i> Router/Switch Setup</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-violet-500"></i> Server OS Deployment</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-violet-500"></i> DHCP, DNS & Sharing</li>
+                    </ul>
+                </div>
+
+                <!-- Skill 3 -->
+                <div
+                    class="glass-panel glass-panel-hover p-5 rounded-2xl space-y-3 border-slate-200/80 dark:border-white/10 shadow-sm">
+                    <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 w-fit">
+                        <i data-lucide="wrench" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-sm">Diagnostics & Repair</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-neutral-400">Maintenance & Safety</p>
+                    </div>
+                    <ul class="space-y-1.5 text-xs text-slate-600 dark:text-neutral-300">
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-emerald-500"></i> Hardware Diagnostics</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-emerald-500"></i> Component Replacement</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-emerald-500"></i> Preventive Maintenance</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-emerald-500"></i> Network Inspection</li>
+                    </ul>
+                </div>
+
+                <!-- Skill 4 -->
+                <div
+                    class="glass-panel glass-panel-hover p-5 rounded-2xl space-y-3 border-slate-200/80 dark:border-white/10 shadow-sm">
+                    <div class="p-2.5 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 w-fit">
+                        <i data-lucide="code" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-sm">Software Logic</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-neutral-400">Coding Fundamentals</p>
+                    </div>
+                    <ul class="space-y-1.5 text-xs text-slate-600 dark:text-neutral-300">
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-amber-500"></i> C++ / Programming Logic</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-amber-500"></i> HTML5 / CSS3 / JavaScript</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-amber-500"></i> Git & GitHub Workflow</li>
+                        <li class="flex items-center gap-2"><i data-lucide="chevron-right"
+                                class="w-3.5 h-3.5 text-amber-500"></i> Hardware Interface Logic</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= LIFE & BALANCE SECTION ================= -->
+        <section id="interests" class="space-y-10">
+
+            <div class="text-center space-y-2 max-w-xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 text-xs font-mono">
+                    <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                    Life & Focus
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">The Perfect
+                    Balance</h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-xs sm:text-sm">"Coding challenges my mind, music
+                    helps me relax, and basketball keeps me active."</p>
+            </div>
+
+            <!-- 3 Pillars Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+
+                <!-- Pillar 1: Coding -->
+                <div class="glass-panel rounded-2xl p-6 border-slate-200/80 dark:border-white/10 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="p-3 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                            <i data-lucide="terminal" class="w-5 h-5"></i>
+                        </div>
+                        <span
+                            class="text-[10px] font-mono text-brand-600 dark:text-brand-400 uppercase tracking-wider font-semibold">THE
+                            BRAIN</span>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Coding & Problem Solving</h3>
+                        <p class="text-xs text-slate-600 dark:text-neutral-300 leading-relaxed font-light">
+                            Coding sharpens analytical thinking and logical structure, turning complex engineering
+                            problems into functional solutions.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pillar 2: Music -->
+                <div class="glass-panel rounded-2xl p-6 border-slate-200/80 dark:border-white/10 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="p-3 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
+                            <i data-lucide="headphones" class="w-5 h-5"></i>
+                        </div>
+                        <span
+                            class="text-[10px] font-mono text-violet-600 dark:text-violet-400 uppercase tracking-wider font-semibold">THE
+                            RHYTHM</span>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Music & Relaxation</h3>
+                        <p class="text-xs text-slate-600 dark:text-neutral-300 leading-relaxed font-light">
+                            Music helps recharge creative energy, clear the mind, and maintain deep focus during long
+                            study and development sessions.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pillar 3: Basketball -->
+                <div class="glass-panel rounded-2xl p-6 border-slate-200/80 dark:border-white/10 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="trophy" class="w-5 h-5"></i>
+                        </div>
+                        <span
+                            class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-semibold">TEAMWORK</span>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Basketball & Activity</h3>
+                        <p class="text-xs text-slate-600 dark:text-neutral-300 leading-relaxed font-light">
+                            Basketball builds stamina, team synergy, fast on-the-spot decision making, and discipline
+                            under pressure.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= CONTACT SECTION ================= -->
+        <section id="contact" class="space-y-10">
+
+            <div class="text-center space-y-2 max-w-xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 text-xs font-mono">
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    Get In Touch
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Let's Connect &
+                    Collaborate</h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-xs sm:text-sm">Reach out for tech collaborations,
+                    engineering inquiries, or projects.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start max-w-5xl mx-auto">
+
+                <!-- Left Contact Info -->
+                <div class="lg:col-span-5 space-y-3">
+
+                    <!-- Direct Email 1 -->
+                    <div
+                        class="glass-panel p-4 rounded-xl flex items-center justify-between gap-3 border-slate-200/80 dark:border-white/10 shadow-sm">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div class="p-2.5 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-400 shrink-0">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </div>
+                            <div class="truncate">
+                                <div class="text-[10px] font-mono text-slate-500 uppercase">Primary Email</div>
+                                <div
+                                    class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-neutral-200 truncate">
+                                    derick.bengan2iv@gmail.com</div>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('derick.bengan2iv@gmail.com', 'Primary Email')"
+                            class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-neutral-300 transition-colors shrink-0"
+                            title="Copy Email">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Direct Email 2 -->
+                    <div
+                        class="glass-panel p-4 rounded-xl flex items-center justify-between gap-3 border-slate-200/80 dark:border-white/10 shadow-sm">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div
+                                class="p-2.5 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400 shrink-0">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </div>
+                            <div class="truncate">
+                                <div class="text-[10px] font-mono text-slate-500 uppercase">Secondary Email</div>
+                                <div
+                                    class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-neutral-200 truncate">
+                                    bengandherick05@gmail.com</div>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('bengandherick05@gmail.com', 'Secondary Email')"
+                            class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-neutral-300 transition-colors shrink-0"
+                            title="Copy Email">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Phone Contact -->
+                    <div
+                        class="glass-panel p-4 rounded-xl flex items-center justify-between gap-3 border-slate-200/80 dark:border-white/10 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+                                <i data-lucide="phone" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] font-mono text-slate-500 uppercase">Contact Numbers</div>
+                                <div class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-neutral-200">
+                                    09602474833 / 09159924057</div>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('09602474833', 'Contact Number')"
+                            class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-neutral-300 transition-colors shrink-0"
+                            title="Copy Contact Number">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Socials Panel -->
+                    <div
+                        class="glass-panel p-4 rounded-xl space-y-2.5 border-slate-200/80 dark:border-white/10 shadow-sm">
+                        <div
+                            class="text-[10px] font-mono text-slate-500 dark:text-neutral-400 uppercase tracking-wider">
+                            Social Channels</div>
+                        <div class="flex items-center gap-2">
+                            <a href="https://github.com/kobean" target="_blank" rel="noopener noreferrer"
+                                class="flex-1 p-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-white/10 flex items-center justify-center gap-1.5 text-xs font-medium text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                <i data-lucide="github" class="w-3.5 h-3.5 text-brand-500"></i> GitHub
+                            </a>
+                            <a href="https://www.facebook.com/8.24bean" target="_blank" rel="noopener noreferrer"
+                                class="flex-1 p-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-white/10 flex items-center justify-center gap-1.5 text-xs font-medium text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                <i data-lucide="facebook" class="w-3.5 h-3.5 text-blue-500"></i> Facebook
+                            </a>
+                            <a href="https://www.instagram.com/derick.bengan/" target="_blank" rel="noopener noreferrer"
+                                class="flex-1 p-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-white/10 flex items-center justify-center gap-1.5 text-xs font-medium text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                <i data-lucide="instagram" class="w-3.5 h-3.5 text-pink-500"></i> Instagram
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Contact Form -->
+                <div
+                    class="lg:col-span-7 glass-panel rounded-2xl p-6 sm:p-7 border-slate-200/80 dark:border-white/10 space-y-5 shadow-sm">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Send a Message</h3>
+                        <p class="text-xs text-slate-500 dark:text-neutral-400 mt-0.5">Fill out the form below to reach
+                            out directly.</p>
+                    </div>
+
+                    <form id="contact-form" class="space-y-3.5" onsubmit="handleFormSubmit(event)">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <div class="space-y-1">
+                                <label for="sender-name"
+                                    class="text-xs font-mono text-slate-600 dark:text-neutral-300">Your Name</label>
+                                <input type="text" id="sender-name" required placeholder="John Doe"
+                                    class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/80 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-neutral-100 placeholder-slate-400 text-xs focus:outline-none focus:border-brand-500 transition-colors">
+                            </div>
+                            <div class="space-y-1">
+                                <label for="sender-email"
+                                    class="text-xs font-mono text-slate-600 dark:text-neutral-300">Your Email</label>
+                                <input type="email" id="sender-email" required placeholder="john@example.com"
+                                    class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/80 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-neutral-100 placeholder-slate-400 text-xs focus:outline-none focus:border-brand-500 transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label for="message-subject"
+                                class="text-xs font-mono text-slate-600 dark:text-neutral-300">Subject</label>
+                            <input type="text" id="message-subject" required
+                                placeholder="Project Inquiry / Job Opportunity"
+                                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/80 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-neutral-100 placeholder-slate-400 text-xs focus:outline-none focus:border-brand-500 transition-colors">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label for="message-body"
+                                class="text-xs font-mono text-slate-600 dark:text-neutral-300">Message</label>
+                            <textarea id="message-body" rows="4" required placeholder="Write your message here..."
+                                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-neutral-900/80 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-neutral-100 placeholder-slate-400 text-xs focus:outline-none focus:border-brand-500 transition-colors resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" id="submit-btn"
+                            class="w-full py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs shadow-sm transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Floating Quick Theme Switcher Pill -->
+    <div class="fixed bottom-6 left-6 z-40">
+        <button onclick="toggleTheme()" id="floating-theme-toggle"
+            class="glass-panel px-3.5 py-2 rounded-full border border-slate-300/80 dark:border-white/15 text-xs font-mono text-slate-700 dark:text-neutral-300 shadow-lg hover:border-brand-500/50 flex items-center gap-2 transition-all duration-200 group bg-white/90 dark:bg-neutral-900/90"
+            title="Toggle Light / Dark Mode">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <i data-lucide="sun" class="w-3.5 h-3.5 theme-icon-sun"></i>
+            <i data-lucide="moon" class="w-3.5 h-3.5 theme-icon-moon"></i>
+            <span class="theme-label text-[11px] font-medium hidden sm:inline">Dark Mode</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer
+        class="border-t border-slate-200/80 dark:border-white/10 glass-panel py-6 relative z-10 transition-colors duration-200">
+        <div
+            class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-neutral-400">
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-800 dark:text-neutral-200">Derick Bengan</span>
+                <span>•</span>
+                <span>BS Computer Engineering</span>
+            </div>
+            <div class="font-mono text-[11px] text-slate-500">
+                Quezon City, Philippines
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // 1. Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 2. Light / Dark Mode System
+        function updateThemeUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+
+            // Segmented Header Toggle
+            const btnLight = document.getElementById('btn-theme-light');
+            const btnDark = document.getElementById('btn-theme-dark');
+            if (btnLight && btnDark) {
+                if (isDark) {
+                    btnDark.className = 'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-white shadow-sm transition-all duration-200';
+                    btnLight.className = 'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all duration-200';
+                } else {
+                    btnLight.className = 'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-900 shadow-sm transition-all duration-200';
+                    btnDark.className = 'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-all duration-200';
+                }
+            }
+
+            // Mobile Drawer Toggle
+            document.querySelectorAll('.mobile-theme-light').forEach(b => {
+                b.className = isDark
+                    ? 'mobile-theme-light flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white'
+                    : 'mobile-theme-light flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-900 shadow-sm';
+            });
+            document.querySelectorAll('.mobile-theme-dark').forEach(b => {
+                b.className = isDark
+                    ? 'mobile-theme-dark flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-white shadow-sm'
+                    : 'mobile-theme-dark flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900';
+            });
+
+            // Floating Switcher
+            document.querySelectorAll('.theme-icon-sun').forEach(el => el.classList.toggle('hidden', !isDark));
+            document.querySelectorAll('.theme-icon-moon').forEach(el => el.classList.toggle('hidden', isDark));
+            document.querySelectorAll('.theme-label').forEach(el => {
+                el.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+            });
+        }
+
+        function setTheme(mode) {
+            if (mode === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+            updateThemeUI();
+            initGitHubHeatmap();
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
+        }
+
+        // 3. Mobile Navigation Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIconOpen = document.getElementById('menu-icon-open');
+        const menuIconClose = document.getElementById('menu-icon-close');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden', isOpen);
+                if (menuIconOpen) menuIconOpen.classList.toggle('hidden', !isOpen);
+                if (menuIconClose) menuIconClose.classList.toggle('hidden', isOpen);
+            });
+
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    if (menuIconOpen) menuIconOpen.classList.remove('hidden');
+                    if (menuIconClose) menuIconClose.classList.add('hidden');
+                });
+            });
+        }
+
+        // 4. Typing Effect for Hero Title
+        const roles = [
+            "Computer Engineering Student",
+            "NC II Certified Technician",
+            "Hardware & Systems Specialist",
+            "Tech Explorer & Problem Solver"
+        ];
+        let roleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingEl = document.getElementById('typing-text');
+
+        function typeEffect() {
+            if (!typingEl) return;
+            const currentRole = roles[roleIndex];
+
+            if (isDeleting) {
+                typingEl.textContent = currentRole.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingEl.textContent = currentRole.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentRole.length) {
+                typeSpeed = 1800;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+                typeSpeed = 400;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        // 5. GitHub Heatmap (Supports Light & Dark Modes)
+        function initGitHubHeatmap() {
+            const svg = document.getElementById('github-graph-svg');
+            const tooltip = document.getElementById('github-tooltip');
+            const container = document.getElementById('github-graph-container');
+            if (!svg || !tooltip || !container) return;
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const cellEmpty = isDark ? '#161b22' : '#e2e8f0';
+            const textCol = isDark ? '#64748b' : '#94a3b8';
+
+            const months = [
+                { name: 'Oct', col: 0 },
+                { name: 'Nov', col: 4 },
+                { name: 'Dec', col: 8 },
+                { name: 'Jan', col: 13 },
+                { name: 'Feb', col: 17 },
+                { name: 'Mar', col: 21 },
+                { name: 'Apr', col: 26 },
+                { name: 'May', col: 30 },
+                { name: 'Jun', col: 35 },
+                { name: 'Jul', col: 39 },
+                { name: 'Aug', col: 43 },
+                { name: 'Sep', col: 48 },
+                { name: 'Oct', col: 52 }
+            ];
+
+            const dayNames = [
+                { name: 'Mon', row: 1 },
+                { name: 'Wed', row: 3 },
+                { name: 'Fri', row: 5 }
+            ];
+
+            const startX = 32;
+            const startY = 24;
+            const cellSize = 10;
+            const cellGap = 3;
+
+            let svgContent = '';
+
+            // Month text labels
+            months.forEach(m => {
+                const x = startX + m.col * (cellSize + cellGap);
+                svgContent += `<text x="${x}" y="14" fill="${textCol}" font-size="10" font-family="'Fira Code', monospace">${m.name}</text>`;
+            });
+
+            // Day text labels (Mon, Wed, Fri)
+            dayNames.forEach(d => {
+                const y = startY + d.row * (cellSize + cellGap) + 8;
+                svgContent += `<text x="6" y="${y}" fill="${textCol}" font-size="9" font-family="'Fira Code', monospace">${d.name}</text>`;
+            });
+
+            // 53 columns x 7 days
+            const today = new Date();
+            const daysTotal = 53 * 7;
+            const startDate = new Date(today);
+            startDate.setDate(today.getDate() - daysTotal + 1);
+
+            for (let col = 0; col < 53; col++) {
+                for (let row = 0; row < 7; row++) {
+                    const x = startX + col * (cellSize + cellGap);
+                    const y = startY + row * (cellSize + cellGap);
+
+                    const cellDate = new Date(startDate);
+                    cellDate.setDate(startDate.getDate() + (col * 7 + row));
+                    const dateStr = cellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+                    svgContent += `<rect class="graph-cell transition-all duration-150 hover:stroke-brand-500 hover:stroke-[1.5]" x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" rx="2" ry="2" fill="${cellEmpty}" data-date="${dateStr}" style="cursor: pointer;"></rect>`;
+                }
+            }
+
+            svg.innerHTML = svgContent;
+
+            // Hover interactions for tooltip
+            svg.querySelectorAll('.graph-cell').forEach(rect => {
+                rect.addEventListener('mouseenter', (e) => {
+                    const date = e.target.getAttribute('data-date');
+                    tooltip.textContent = `No contributions on ${date}`;
+                    tooltip.classList.remove('hidden');
+
+                    const rectBox = e.target.getBoundingClientRect();
+                    const containerBox = container.getBoundingClientRect();
+                    const left = rectBox.left - containerBox.left + (rectBox.width / 2);
+                    const top = rectBox.top - containerBox.top - 32;
+
+                    tooltip.style.left = `${left}px`;
+                    tooltip.style.top = `${top}px`;
+                    tooltip.style.transform = 'translateX(-50%)';
+                });
+
+                rect.addEventListener('mouseleave', () => {
+                    tooltip.classList.add('hidden');
+                });
+            });
+        }
+
+        // 6. Copy-to-Clipboard Functionality
+        function copyToClipboard(text, label) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            showToast(`Copied ${label} to clipboard!`);
+        }
+
+        // 7. Toast Notification
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+
+            toast.className = 'glass-panel px-4 py-2.5 rounded-xl border-emerald-500/40 text-emerald-600 dark:text-emerald-400 text-xs font-semibold flex items-center gap-2 shadow-lg';
+            toast.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> <span>${message}</span>`;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // 8. Contact Form Handling
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const originalHTML = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> <span>Sending...</span>`;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                lucide.createIcons();
+                document.getElementById('contact-form').reset();
+                showToast("Message sent successfully! I'll reply soon.");
+            }, 1000);
+        }
+
+        // Page Ready Initializations
+        document.addEventListener("DOMContentLoaded", () => {
+            updateThemeUI();
+            typeEffect();
+            initGitHubHeatmap();
+        });
+    </script>
+</body>
+
+</html>
